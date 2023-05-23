@@ -1,4 +1,5 @@
 # Regular-Expressions
+<hr>
 <h2> 정규표현식(regular expression), 간단히 regexp 또는 regex</h2>
 
 <h3>개념</h3>
@@ -23,9 +24,66 @@
 다음과 같은 상황에서 특정문제를 해결할 수 있다.
 
 대소문자를 구별하지 않고 car라는 텍스트를 찾는데, 단어 중간에 car가 들어간 경우는 제외할 경우(scar, carry 등)
-DB에서 뽑흔 텍스트를 태그를 포함하여 웹페이지에 출력하려고 할 때
+
+DB에서 뽑은 텍스트를 태그를 포함하여 웹페이지에 출력하려고 할 때
+
 회원가입과 같은 input 폼이 있는 웹페이지를 만들 때 형식이 맞게 작성되었는지 확인할 때
+
 소스코드에서 단어를 조건에 맞게 치환하려고 할 때
+
 특정 텍스트가 포함된 파일들을 걸러낼 때
+
 csv 등의 데이터를 처리할 때
+
 파일의 특정 위치에서 원하는 텍스트를 찾을 때
+
+<h3>Example</h3>
+<i><code>import re</code></i><hr>
+<b>정규표현식 사용</b>
+<code>
+  text = "에러 1122 : 레퍼런스 오류\n 에러 1033: 아규먼트 오류"
+  regex = re.compile("에러 1033")
+  mo = regex.search(text)
+  if mo != None:
+    print(mo.group()) 
+ </code>
+ 
+ <b>전화번호 발췌</b>
+ <code>
+  text = "문의사항이 있으면 032-232-3245 으로 연락주시기 바랍니다."
+ 
+  regex = re.compile(r'\d\d\d-\d\d\d-\d\d\d\d')
+  matchobj = regex.search(text)
+  phonenumber = matchobj.group()
+  print(phonenumber)    
+</code>
+
+<b>다양한 정규표현식 표현</b>
+
+^	이 패턴으로 시작해야 함	^abc : abc로 시작해야 함 (abcd, abc12 등)
+
+$	이 패턴으로 종료되어야 함	xyz$ : xyz로 종료되어야 함 (123xyz, strxyz 등)
+[문자들]	문자들 중에 하나이어야 함. 가능한 문자들의 집합을 정의함.	[Pp]ython : "Python" 혹은 "python"
+[^문자들]	[문자들]의 반대로 피해야할 문자들의 집합을 정의함.	[^aeiou] : 소문자 모음이 아닌 문자들
+|	두 패턴 중 하나이어야 함 (OR 기능)	a | b : a 또는 b 이어야 함
+
+?	앞 패턴이 없거나 하나이어야 함 (Optional 패턴을 정의할 때 사용)	\d? : 숫자가 하나 있거나 없어야 함
+
++	앞 패턴이 하나 이상이어야 함	\d+ : 숫자가 하나 이상이어야 함
+
+*	앞 패턴이 0개 이상이어야 함	\d* : 숫자가 없거나 하나 이상이어야 함
+패턴{n}	앞 패턴이 n번 반복해서 나타나는 경우	\d{3} : 숫자가 3개 있어야 함
+패턴{n, m}	앞 패턴이 최소 n번, 최대 m 번 반복해서 나타나는 경우 (n 또는 m 은 생략 가능)	\d{3,5} : 숫자가 3개, 4개 혹은 5개 있어야 함
+
+\d	숫자 0 ~ 9	\d\d\d : 0 ~ 9 범위의 숫자가 3개를 의미 (123, 000 등)
+
+\w	문자를 의미	\w\w\w : 문자가 3개를 의미 (xyz, ABC 등)
+
+\s	화이트 스페이스를 의미하는데, [\t\n\r\f] 와 동일	\s\s : 화이트 스페이스 문자 2개 의미 (\r\n, \t\t 등)
+
+.	뉴라인(\n) 을 제외한 모든 문자를 의미	.{3} : 문자 3개 (F15, 0x0 등)
+  
+<h3>출처</h3>
+https://ko.wikipedia.org/wiki/%EC%A0%95%EA%B7%9C_%ED%91%9C%ED%98%84%EC%8B%9D
+https://velog.io/@909snare/%EC%A0%95%EA%B7%9C%ED%91%9C%ED%98%84%EC%8B%9D-%EC%86%8C%EA%B0%9C
+http://pythonstudy.xyz/python/article/401-%EC%A0%95%EA%B7%9C-%ED%91%9C%ED%98%84%EC%8B%9D-Regex
